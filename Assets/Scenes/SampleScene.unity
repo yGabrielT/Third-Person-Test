@@ -897,6 +897,8 @@ MonoBehaviour:
   Sensivity: 2
   playerTransform: {fileID: 1790837875}
   follorLerpSpeed: 25
+  _anim: {fileID: 5866666021979553638}
+  lerpAnimSpeed: 25
 --- !u!1001 &1185109147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1389,9 +1391,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Velocity: 8
+  SprintSpeed: 12
   LerpSpeed: 12
-  PlayerRotateLerpValue: 6
+  PlayerRotateLerpValue: 10
+  speed: 0
   gravity: 10
+  _anim: {fileID: 5866666021979553638}
   springArm: {fileID: 1046533205}
 --- !u!1 &9171100490042382
 GameObject:
@@ -2998,10 +3003,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tFrom animation clip 'Running
-    Left'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

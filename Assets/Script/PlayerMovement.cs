@@ -14,13 +14,18 @@ public class PlayerMovement : MonoBehaviour
     Vector3 _inputRefined;
     Vector2 _inputVec;
     CharacterController _char;
+    public float speed;
     public float gravity = 10f;
+    public Animator _anim;
     public Transform springArm;
     private Quaternion lastRot;
     private bool stoppedMoving;
 
+    private float baseVelocity;
+
     private void Start()
     {
+        baseVelocity = Velocity;
         _char = GetComponent<CharacterController>();
     }
     void Update()
@@ -32,9 +37,15 @@ public class PlayerMovement : MonoBehaviour
     {
         float inputx = Input.GetAxisRaw("Horizontal");
         float inputy = Input.GetAxisRaw("Vertical");
-
-        
-
+        bool inputSprint = Input.GetKey(KeyCode.LeftShift);
+        if (inputSprint)
+        {
+            Velocity = SprintSpeed;
+        }
+        else
+        {
+            Velocity = baseVelocity;
+        }
         Vector3 forward = Camera.main.transform.forward;
         Vector3 right = Camera.main.transform.right;
         forward.y = 0;
@@ -44,13 +55,16 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 relativeinputy = inputy * forward;
         Vector3 relativeinputx = inputx * right;
-
+        
+        _anim.SetFloat("Speed", speed);
 
         Vector3 relativeinput = relativeinputy + relativeinputx;
 
         
         _inputVec = new Vector2(relativeinput.x, relativeinput.z).normalized * Velocity;
         
+        float speedMag = (new Vector2(inputy, inputx).normalized).magnitude;
+        speed = Mathf.Lerp(speed, speedMag * Velocity, LerpSpeed * Time.deltaTime);
 
         _inputRefined = Vector3.Lerp(_inputRefined, new Vector3(_inputVec.x, 0, _inputVec.y),  LerpSpeed * Time.deltaTime);
         _inputRefined.y = -gravity;

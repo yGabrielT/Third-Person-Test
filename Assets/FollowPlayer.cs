@@ -14,6 +14,9 @@ public class FollowPlayer : MonoBehaviour
     public float Sensivity = 1.0f;
     public Transform playerTransform;
     public float follorLerpSpeed = 2f;
+    public Animator _anim;
+    private float MouseVar;
+    public float lerpAnimSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,14 +27,17 @@ public class FollowPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         transform.position = Vector3.Lerp(transform.position, playerTransform.position, follorLerpSpeed * Time.deltaTime);
         RotateCamera();
+        
+        _anim.SetFloat("Dir", MouseVar);
     }
 
     void RotateCamera()
     {
         rawMouseInput = new Vector2(Input.GetAxisRaw("Mouse X") * Sensivity, Input.GetAxisRaw("Mouse Y") * Sensivity);
-        
+        MouseVar = Mathf.Lerp(MouseVar, smoothMouseInput.x, Time.deltaTime * lerpAnimSpeed);
         smoothMouseInput = Vector2.Lerp(smoothMouseInput, rawMouseInput, Time.deltaTime * smoothLerpMouseValue);
         mouseInput += smoothMouseInput;
         mouseInput.y = Mathf.Clamp(mouseInput.y, TopClampValue, BottomClampValue);
